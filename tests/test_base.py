@@ -19,10 +19,10 @@ class MainTest(TestCase):
     def test_app_in_test_mode(self):
         self.assertTrue(current_app.config['TESTING'])
 
-    # Test if the app rejects the GET method
+    # Test if the app can handle the GET method
     def test_comparator_get(self):
         response = self.client.get(url_for('comparator'))
-        self.assert405(response)
+        self.assert200(response)
 
     # Test if the app can handle the POST method
     def test_comparator_post(self):
