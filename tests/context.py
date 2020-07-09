@@ -10,6 +10,10 @@ def set_user():
     return ['Usuario', [0, 0]]
 
 
+def set_quantity():
+    return [1, 8, 2, 2, 6, 1, 4, 5, 3, 3]
+
+
 def set_markets():
     """Supermarkets ID."""
     return [
