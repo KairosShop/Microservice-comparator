@@ -5,14 +5,18 @@
 import pandas as pd
 
 
-def set_df(supermarkets, products, prices):
-    """Set the Data Frame with values."""
+def get_df(supermarkets, products, prices, quantity):
+    """Get the Data Frame with values."""
     df = pd.DataFrame(prices, index=supermarkets, columns=products)
     df = df.fillna(0)
 
     total = []
+    aux = []
     for i in range(len(supermarkets)):
-        total.append(df.loc[supermarkets[i]].sum())
+        for j in range(len(quantity)):
+            aux.append(df.loc[supermarkets[i]][j] * quantity[j])
+        total.append(sum(aux))
+        aux = []
     df['total'] = total
 
     return df

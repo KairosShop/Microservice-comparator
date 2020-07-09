@@ -8,17 +8,34 @@ import unittest
 # App instance imports
 from app import create_app
 
+# Database imports
+from flask_sqlalchemy import SQLAlchemy
+
 # Test data imports
 from tests.context import set_user, set_markets, set_products, set_markets_loc
-from tests.context import full_prod, half_prod, one_market_all_prod
+from tests.context import full_prod, half_prod, one_market_all_prod, set_quantity
 from tests.context import two_markets_all_prod, some_prod, no_prod
 from tests.context import one_same_prod, one_dif_prod
 
 # Comparator Algorithm imports
 from comparator.comparator import the_comparator
 
+# Cart data imports
+from loader.data import get_json_cart
+from loader.loader import json_loader
 
 app = create_app()
+
+db = SQLAlchemy(app)
+
+
+# This part connects the microservice with the database
+try:
+    cart = db.Table('Products', db.metadata, autoload=True, autoload_with=db.engine)
+    results = db.session.query(cart).all()
+
+except Exception as e:
+    print(f"Error while trying to get the table. : {e} Doesn't exist.")
 
 
 @app.cli.command()
@@ -61,22 +78,28 @@ def comparator():
 
             if app.config['TESTING'] == True:
                 test = request.get_json('cart')
-                
+
                 context = the_comparator(
                     test['cart'][0],
                     test['cart'][1],
                     test['cart'][2],
                     test['cart'][3],
-                    test['cart'][4]
+                    test['cart'][4],
+                    test['cart'][5]
                 )
                 
                 return jsonify({'body': context})
 
             if cart:
+                # This part will load the data from the database
+                id = 1
+                products, quantity = json_loader(id, get_json_cart)
+
                 user_info = set_user()
                 markets_id = set_markets()
                 markets_loc = set_markets_loc()
                 products = set_products()
+                quantity = set_quantity()
                 
                 price = {
                     '0001': full_prod(),
@@ -100,6 +123,7 @@ def comparator():
                     markets_id,
                     markets_loc,
                     products,
+                    quantity,
                     prices
                 )
                 return jsonify({'body': context})
@@ -117,4 +141,4 @@ def comparator():
             })
 
     except Exception:
-        return jsonify({'body': 'Invalid information'})
+        return jsonify({'body': 'Wrong information'})

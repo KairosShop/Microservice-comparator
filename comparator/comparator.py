@@ -2,18 +2,18 @@
 
 
 # Comparator functions imports
-from .basics import set_df, get_context
+from .basics import get_df, get_context
 from .all_in_one import get_all_in_one
 from .cheapest import get_cheapest
 from .details import get_details
 
 
-def the_comparator(user_info, supermarkets, markets_loc, products, prices):
+def the_comparator(user_info, supermarkets, markets_loc, products, quantity, prices):
     """The Comparator main function."""
     user = user_info[0]
     user_loc = user_info[1]
 
-    df = set_df(supermarkets, products, prices)
+    df = get_df(supermarkets, products, prices, quantity)
 
     all_in_one = get_all_in_one(df, supermarkets, user_loc, markets_loc)
     cheapest = get_cheapest(df, supermarkets, products)

@@ -111,10 +111,8 @@ def get_all_in_one(df, supermarkets, user_loc, markets_loc):
     for i in range(len(supermarkets)):
         length = get_products_length(df, supermarkets[i])
 
-        all_in_one[supermarkets[i]] = [
-            length,
-            df.loc[supermarkets[i]].values[-1]
-        ]
+        all_in_one[supermarkets[i]] = [length, df.loc[supermarkets[i]].values[-1]]
+    
     all_in_one = get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc)
 
     return all_in_one
