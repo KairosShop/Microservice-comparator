@@ -3,3 +3,4 @@ flask-testing
 pandas
 Flask-SQLAlchemy
 psycopg2-binary
+Flask-Cors
