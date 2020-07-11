@@ -10,10 +10,10 @@ def get_details(df, supermarkets, products):
 
         for j in range(len(supermarkets)):
             if df.at[supermarkets[j], products[i]]:
-                place.append([
-                    supermarkets[j],
+                place.append({
+                    supermarkets[j]:
                     df.at[supermarkets[j], products[i]]
-                ])
+                })
 
         details[products[i]] = place
     

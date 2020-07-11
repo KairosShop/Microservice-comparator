@@ -13,10 +13,13 @@ def get_df(supermarkets, products, prices, quantity):
     total = []
     aux = []
     for i in range(len(supermarkets)):
+        quant = dict(quantity)
         for j in range(len(quantity)):
-            aux.append(df.loc[supermarkets[i]][j] * quantity[j])
+            aux.append(df.loc[supermarkets[i]][j] * quant[next(iter(quant))])
+            del quant[next(iter(quant))]
         total.append(sum(aux))
         aux = []
+
     df['total'] = total
 
     return df

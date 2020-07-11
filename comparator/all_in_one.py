@@ -3,6 +3,7 @@
 
 # Python modules imports
 from math import sqrt
+from operator import getitem
 
 
 def get_products_length(df, market):
@@ -28,80 +29,75 @@ def get_location(user_loc, market_loc):
 
 def get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc):
     """Get the sorted values of every supermarket."""
+    
     length = []
     for i in range(len(supermarkets)):
-        length.append(all_in_one[supermarkets[i]][0])
+        length.append(all_in_one[supermarkets[i]]['total_products'])
 
+    # If all supermarkets have the same number of products
     if len(set(length)) == 1:
-        all_in_one = dict(sorted(all_in_one.items(), key=lambda x: x[1][1]))
+        aux = dict(sorted(
+            all_in_one.items(),
+            key=lambda x: getitem(x[1],'total_sum')
+        ))
 
-        count = 0
-        for _, value in all_in_one.items():
-            if value[1] == all_in_one[next(iter(all_in_one))][1]:
-                count += 1
+    # If not all supermarkets have the same number of products
+    else:
+        sort = dict(sorted(
+            all_in_one.items(),
+            key=lambda x: getitem(x[1], 'total_products'), reverse=True
+        ))
         
-        if count >= 2:
-            locations = []
-            for key, value in all_in_one.items():
-                if value[1] == all_in_one[next(iter(all_in_one))][1]:
-                    locations.append(key)
+        max_products = all_in_one[next(iter(all_in_one))]['total_products']
+        
+        aux = {}
+        for key, value in all_in_one.items():
+            if value['total_products'] == max_products:
+                aux[key] = value
 
-            best_loc = []
-            for loc in locations:
-                best_loc.append([loc, get_location(user_loc, markets_loc[loc])])
+        sort_aux = dict(sorted(
+            aux.items(),
+            key=lambda x: getitem(x[1], 'total_sum')
+        ))
 
-            aux = {}
-            for key, value in all_in_one.items():
-                if best_loc:
-                    aux[best_loc[0][0]] = all_in_one[best_loc[0][0]]
-                    del best_loc[0]
-                else:
-                    aux[key] = all_in_one[key]
+        aux = {}
+        for key, value in sort.items():
+            if sort_aux:
+                aux[list(sort_aux.keys())[0]] = sort_aux[next(iter(sort_aux))]
+                del sort_aux[next(iter(sort_aux))]
+            else:
+                aux[key] = value
 
-            return aux
+    # Check if there are more than one first-place supermarkets with the same total
+    count = 0
+    for _, value in aux.items():
+        if value['total_products'] == aux[next(iter(aux))]['total_products']:
+            count += 1
+    
+    # If there are more than two supermarkets with the same total
+    if count >= 2:
+        locations = []
+        for key, value in aux.items():
+            if value['total_products'] == aux[next(iter(aux))]['total_products']:
+                locations.append(key)
 
-        else:
-            return all_in_one
+        # Get the location and select the nearest supermarket
+        best_loc = []
+        for loc in locations:
+            best_loc.append([loc, get_location(user_loc, markets_loc[loc])])
+
+        sort_aux = {}
+        for key, value in aux.items():
+            if best_loc:
+                sort_aux[best_loc[0][0]] = aux[best_loc[0][0]]
+                del best_loc[0]
+            else:
+                sort_aux[key] = aux[key]
+
+        return sort_aux
 
     else:
-        all_in_one = dict(sorted(all_in_one.items(), key=lambda x: x[1][0], reverse=True))
-    
-        aux = {}
-        repeated_keys = []
-        for i in range(len(supermarkets)):
-            if str(all_in_one[supermarkets[i]][0]) not in aux:
-                aux[str(all_in_one[supermarkets[i]][0])] = 1
-            else:
-                aux[str(all_in_one[supermarkets[i]][0])] += 1
-                repeated_keys.append(all_in_one[supermarkets[i]][0])
-
-        count = 0
-        for _, value in all_in_one.items():
-            if value[0] == all_in_one[next(iter(all_in_one))][0]:
-                count += 1
-        
-        if count >= 2:
-            locations = []
-            for key, value in all_in_one.items():
-                if value[1] == all_in_one[next(iter(all_in_one))][1]:
-                    locations.append(key)
-
-            best_loc = []
-            for loc in locations:
-                best_loc.append([loc, get_location(user_loc, markets_loc[loc])])
-
-            aux = {}
-            for key, value in all_in_one.items():
-                if best_loc:
-                    aux[best_loc[0][0]] = all_in_one[best_loc[0][0]]
-                    del best_loc[0]
-                else:
-                    aux[key] = all_in_one[key]
-
-            return aux
-
-        else:
-            return all_in_one
+        return aux
 
 
 def get_all_in_one(df, supermarkets, user_loc, markets_loc):
@@ -111,7 +107,10 @@ def get_all_in_one(df, supermarkets, user_loc, markets_loc):
     for i in range(len(supermarkets)):
         length = get_products_length(df, supermarkets[i])
 
-        all_in_one[supermarkets[i]] = [length, df.loc[supermarkets[i]].values[-1]]
+        all_in_one[supermarkets[i]] = {
+            'total_products': length,
+            'total_sum': df.loc[supermarkets[i]].values[-1]
+        }
     
     all_in_one = get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc)
 

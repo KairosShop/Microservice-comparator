@@ -11,7 +11,18 @@ def set_user():
 
 
 def set_quantity():
-    return [1, 8, 2, 2, 6, 1, 4, 5, 3, 3]
+    return dict({
+        'Sabritas': 1,
+        'Yoplait': 8,
+        'Coca Cola': 2,
+        'Oreos': 2,
+        'Victoria': 6,
+        'Pepsi': 1,
+        'Nescafé': 4,
+        'Emperador': 5,
+        'Pan Bimbo': 3,
+        'Zote': 3,
+    })
 
 
 def set_markets():
