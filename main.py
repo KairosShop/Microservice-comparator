@@ -12,10 +12,11 @@ from app import create_app
 from flask_sqlalchemy import SQLAlchemy
 
 # Test data imports
-from tests.context import set_user, set_markets, set_products, set_markets_loc
 from tests.context import full_prod, half_prod, one_market_all_prod, set_quantity
 from tests.context import two_markets_all_prod, some_prod, no_prod
 from tests.context import one_same_prod, one_dif_prod
+
+from tests.context import set_user, set_markets, set_products, set_markets_loc
 
 # Comparator Algorithm imports
 from comparator.comparator import the_comparator
@@ -30,12 +31,12 @@ db = SQLAlchemy(app)
 
 
 # This part connects the microservice with the database
-try:
-    cart = db.Table('Products', db.metadata, autoload=True, autoload_with=db.engine)
-    results = db.session.query(cart).all()
+# try:
+#     cart = db.Table('Products', db.metadata, autoload=True, autoload_with=db.engine)
+#     results = db.session.query(cart).all()
 
-except Exception as e:
-    print(f"Error while trying to get the table. : {e} Doesn't exist.")
+# except Exception as e:
+#     print(f"Error while trying to get the table. : {e} Doesn't exist.")
 
 
 @app.cli.command()
@@ -48,19 +49,19 @@ def test():
 @app.errorhandler(404)
 def not_found(error):
     """Handles the 404 error."""
-    return jsonify({'body': 'Not found'})
+    return jsonify({'error': 'false', 'status': '200', 'body': 'Not found'})
 
 
 @app.errorhandler(405)
 def not_allowed(error):
     """Handles the 405 error."""
-    return jsonify({'body': 'Method not allowed'})
+    return jsonify({'error': 'false', 'status': '200', 'body': 'Method not allowed'})
 
 
 @app.errorhandler(500)
 def server_error(error):
     """Handles the 500 error."""
-    return jsonify({'body': 'Server error'})
+    return jsonify({'error': 'false', 'status': '200', 'body': 'Server error'})
 
 
 @app.route("/")
@@ -88,7 +89,7 @@ def comparator():
                     test['cart'][5]
                 )
                 
-                return jsonify({'body': context})
+                return jsonify({'error': 'false', 'status': '200', 'body': context})
 
             if cart:
                 # This part will load the data from the database
@@ -116,7 +117,11 @@ def comparator():
                     prices = price[cart]
 
                 except Exception:
-                    return jsonify({'body': 'Invalid information'})
+                    return jsonify({
+                        'error': 'false',
+                        'status': '200',
+                        'body': 'Invalid information'
+                    })
 
                 context = the_comparator(
                     user_info,
@@ -126,13 +131,23 @@ def comparator():
                     quantity,
                     prices
                 )
-                return jsonify({'body': context})
+                return jsonify({
+                    'error': 'false',
+                    'status': '200',
+                    'body': context
+                })
 
             else:
-                return jsonify({'body': 'There is no information'})
+                return jsonify({
+                    'error': 'false',
+                    'status': '200',
+                    'body': 'There is no information'
+                })
 
         else:
             return jsonify({
+                'error': 'false',
+                'status': '200', 
                 'body': {
                     'message': 'Welcome to the Comparator Microservice',
                     'method': 'Try again with the POST method',
@@ -141,4 +156,8 @@ def comparator():
             })
 
     except Exception:
-        return jsonify({'body': 'Wrong information'})
+        return jsonify({
+            'error': 'false',
+            'status': '200',
+            'body': 'Wrong information'
+        })

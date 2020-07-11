@@ -16,7 +16,7 @@ def the_comparator(user_info, supermarkets, markets_loc, products, quantity, pri
     df = get_df(supermarkets, products, prices, quantity)
 
     all_in_one = get_all_in_one(df, supermarkets, user_loc, markets_loc)
-    cheapest = get_cheapest(df, supermarkets, products)
+    cheapest = get_cheapest(df, supermarkets, products, quantity)
     details = get_details(df, supermarkets, products)
 
     context = get_context(user, all_in_one, cheapest, details)
