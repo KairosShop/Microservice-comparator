@@ -4,6 +4,7 @@
 # Flask imports
 from flask import request, jsonify, redirect, url_for
 import unittest
+from flask_cors import CORS
 
 # App instance imports
 from app import create_app
@@ -28,6 +29,13 @@ from loader.loader import json_loader
 app = create_app()
 
 db = SQLAlchemy(app)
+
+CORS(app)
+cors = CORS(app, resources={
+    r"/*": {
+        "origins": "*"
+    }
+})
 
 
 # This part connects the microservice with the database
@@ -83,13 +91,16 @@ def comparator():
                 context = the_comparator(
                     test['cart'][0],
                     test['cart'][1],
-                    test['cart'][2],
+                    set_markets_loc(),
                     test['cart'][3],
-                    test['cart'][4],
+                    set_quantity(),
                     test['cart'][5]
                 )
-                
-                return jsonify({'error': 'false', 'status': '200', 'body': context})
+
+                return jsonify({
+                    'error': 'false',
+                    'status': '200',
+                    'body': context})
 
             if cart:
                 # This part will load the data from the database
