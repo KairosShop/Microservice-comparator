@@ -102,19 +102,24 @@ def comparator():
             if app.config['TESTING'] == True:
                 test = request.get_json('cart')
 
-                # context = the_comparator(
-                #     test['cart'][0],
-                #     test['cart'][1],
-                #     set_markets_loc(),
-                #     test['cart'][3],
-                #     set_quantity(),
-                #     test['cart'][5]
-                # )
+                context = the_comparator(
+                    set_user(),
+                    set_markets(),
+                    set_markets_loc(),
+                    set_products(),
+                    set_quantity(),
+                    test['cart'][5],
+                    markets_images(),
+                    products_images(),
+                    markets_ids(),
+                    products_ids()
+                )
 
                 return jsonify({
                     'error': 'false',
                     'status': '200',
-                    'body': context})
+                    'body': context}
+                )
 
             if cart:
                 # This part will load the data from the database
@@ -155,11 +160,12 @@ def comparator():
                     products,
                     quantity,
                     prices,
-                    markets_images,
-                    products_images,
-                    markets_ids,
-                    products_ids
+                    markets_images(),
+                    products_images(),
+                    markets_ids(),
+                    products_ids()
                 )
+
                 return jsonify({
                     'error': 'false',
                     'status': '200',

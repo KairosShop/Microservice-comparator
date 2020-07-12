@@ -41,10 +41,17 @@ def get_df(supermarkets, products, prices, quantity):
 
 def get_context(user, markets, all_in_one, cheapest, details, markets_images, markets_ids, products_ids):
     """Generate the JSON string with the data to export."""
-    
     set_context = {}
+    
     for market in markets:
-        set_context[market] = all_in_one[market], cheapest[market]
+        pass
+        try:
+            set_context[market] = all_in_one[market], cheapest[market]
+        except Exception:
+            if len(all_in_one) > len(cheapest):
+                set_context[market] = all_in_one[market], '{}'
+            elif len(all_in_one) < len(cheapest):
+                set_context[market] = '{}', cheapest[market]
 
     context = []
     for market in markets:
