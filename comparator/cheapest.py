@@ -1,12 +1,14 @@
 """Get the cheapest option for all products."""
 
 
-def get_total(all_products, quantity):
+def get_total(all_products, products, quantity):
     """Generate the sum of the cheapest products."""
     total = 0
 
-    for key, value in all_products.items():
-        total += (value * quantity[key])
+    for i in range(len(all_products)):
+        for key, value in all_products[i].items():
+            if key in products:
+                total += (value * quantity[key])
     
     return total
 
@@ -27,27 +29,25 @@ def get_cheapest(df, supermarkets, products, quantity):
 
         cheap_list.append({market: cheap})
 
-    cheapest = []
+    cheapest = {}
     for market in supermarkets:
-        all_products = {}
+        all_products = []
         
         for prod in cheap_list:
             for key, value in prod.items():
                 if key == market:
                     if key not in all_products:
-                        all_products[value[0]] = value[1]
+                        all_products.append({value[0]: value[1], 'count': quantity[value[0]]})
 
         if all_products:
             length = len(all_products)
 
-            total = get_total(all_products, quantity)
+            total = get_total(all_products, products, quantity)
 
-            cheapest.append({
-                market: {
+            cheapest[market] = {
                     'total_products': length,
                     'total_sum': total,
                     'products': all_products
-                }
-            })
+            }
 
     return cheapest

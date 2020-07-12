@@ -6,25 +6,29 @@ from flask import request, jsonify, redirect, url_for
 import unittest
 from flask_cors import CORS
 
-# App instance imports
+# App instance import
 from app import create_app
 
-# Database imports
+# Database import
 from flask_sqlalchemy import SQLAlchemy
 
 # Test data imports
 from tests.context import full_prod, half_prod, one_market_all_prod, set_quantity
 from tests.context import two_markets_all_prod, some_prod, no_prod
-from tests.context import one_same_prod, one_dif_prod
+from tests.context import one_same_prod, one_dif_prod, markets_images, products_images
 
 from tests.context import set_user, set_markets, set_products, set_markets_loc
 
-# Comparator Algorithm imports
+# Comparator Algorithm import
 from comparator.comparator import the_comparator
 
 # Cart data imports
 from loader.data import get_json_cart
 from loader.loader import json_loader
+
+# Pandas import
+import pandas as pd
+
 
 app = create_app()
 
@@ -39,12 +43,22 @@ cors = CORS(app, resources={
 
 
 # This part connects the microservice with the database
-# try:
-#     cart = db.Table('Products', db.metadata, autoload=True, autoload_with=db.engine)
-#     results = db.session.query(cart).all()
 
-# except Exception as e:
-#     print(f"Error while trying to get the table. : {e} Doesn't exist.")
+# POST
+#   - userId
+#   - latitud
+#   - longitud
+
+# user = [userId, [latitud, longitud]]
+
+try:
+    cart = db.Table('Orders', db.metadata, autoload=True, autoload_with=db.engine)
+    results = db.session.query(cart).all()
+    # print(results[5]) # Users
+    # print(results)
+
+except Exception as e:
+    print(f"Error while trying to get the table. : {e} Doesn't exist.")
 
 
 @app.cli.command()
@@ -88,14 +102,14 @@ def comparator():
             if app.config['TESTING'] == True:
                 test = request.get_json('cart')
 
-                context = the_comparator(
-                    test['cart'][0],
-                    test['cart'][1],
-                    set_markets_loc(),
-                    test['cart'][3],
-                    set_quantity(),
-                    test['cart'][5]
-                )
+                # context = the_comparator(
+                #     test['cart'][0],
+                #     test['cart'][1],
+                #     set_markets_loc(),
+                #     test['cart'][3],
+                #     set_quantity(),
+                #     test['cart'][5]
+                # )
 
                 return jsonify({
                     'error': 'false',
@@ -140,7 +154,9 @@ def comparator():
                     markets_loc,
                     products,
                     quantity,
-                    prices
+                    prices,
+                    markets_images,
+                    products_images
                 )
                 return jsonify({
                     'error': 'false',

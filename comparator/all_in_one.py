@@ -2,8 +2,10 @@
 
 
 # Python modules imports
-from math import sqrt
 from operator import getitem
+
+# Comparator functions imports
+from .basics import get_location
 
 
 def get_products_length(df, market):
@@ -17,17 +19,7 @@ def get_products_length(df, market):
     return length
 
 
-def get_location(user_loc, market_loc):
-    """Get the distance between the user and a given supermarket."""
-    location = sqrt(
-        ((user_loc[0] - market_loc[0])**2)
-        + ((user_loc[1] - market_loc[1])**2)
-    )
-    
-    return location
-
-
-def get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc):
+def get_sorted_values(df, all_in_one, supermarkets, user_loc, markets_loc, products):
     """Get the sorted values of every supermarket."""
     
     length = []
@@ -40,6 +32,7 @@ def get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc):
             all_in_one.items(),
             key=lambda x: getitem(x[1],'total_sum')
         ))
+
 
     # If not all supermarkets have the same number of products
     else:
@@ -100,18 +93,27 @@ def get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc):
         return aux
 
 
-def get_all_in_one(df, supermarkets, user_loc, markets_loc):
+def get_all_in_one(df, supermarkets, user_loc, markets_loc, products, quantity):
     """Generate the "all in one list" data."""
-    all_in_one = {}
+    total_prod = {}
+    total_aux = []
+    for market in supermarkets:
+        for i in range(len(products)):
+            if df.loc[market].values[i] != 0:
+                total_aux.append({products[i]: df.loc[market].values[i], 'count': quantity[products[i]]})
+        total_prod[market] = total_aux
+        total_aux = []
 
+    all_in_one = {}
     for i in range(len(supermarkets)):
         length = get_products_length(df, supermarkets[i])
 
         all_in_one[supermarkets[i]] = {
             'total_products': length,
-            'total_sum': df.loc[supermarkets[i]].values[-1]
+            'total_sum': df.loc[supermarkets[i]].values[-1],
+            'products': total_prod[supermarkets[i]]
         }
     
-    all_in_one = get_sorted_values(all_in_one, supermarkets, user_loc, markets_loc)
+    all_in_one = get_sorted_values(df, all_in_one, supermarkets, user_loc, markets_loc, products)
 
     return all_in_one

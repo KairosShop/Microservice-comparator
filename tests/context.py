@@ -10,21 +10,6 @@ def set_user():
     return ['Usuario', [0, 0]]
 
 
-def set_quantity():
-    return dict({
-        'Sabritas': 1,
-        'Yoplait': 8,
-        'Coca Cola': 2,
-        'Oreos': 2,
-        'Victoria': 6,
-        'Pepsi': 1,
-        'Nescafé': 4,
-        'Emperador': 5,
-        'Pan Bimbo': 3,
-        'Zote': 3,
-    })
-
-
 def set_markets():
     """Supermarkets ID."""
     return [
@@ -34,17 +19,6 @@ def set_markets():
         'Sams Club',
         'Mercado Soriana'
     ]
-
-
-def set_markets_loc():
-    """Supermarkets location."""
-    return dict({
-        'Walmart': [1, 3],
-        'Aurrera': [5, 4],
-        'Soriana': [6, 2],
-        'Sams Club': [1, 4],
-        'Mercado Soriana': [6, 1],
-    })
 
 
 def set_products():
@@ -62,16 +36,67 @@ def set_products():
         'Zote'
     ]
 
+def set_quantity():
+    return dict({
+        'Sabritas': 1,
+        'Yoplait': 8,
+        'Coca Cola': 2,
+        'Oreos': 2,
+        'Victoria': 6,
+        'Pepsi': 1,
+        'Nescafé': 4,
+        'Emperador': 5,
+        'Pan Bimbo': 3,
+        'Zote': 3,
+    })
+
+
+def set_markets_loc():
+    """Supermarkets location."""
+    return dict({
+        'Walmart': [1, 3],
+        'Aurrera': [5, 4],
+        'Soriana': [6, 2],
+        'Sams Club': [1, 4],
+        'Mercado Soriana': [6, 1],
+    })
+
 
 def full_prod():
     """All supermarkets with all products."""
-    return [
-        [10, 8, 12, 20, 16, 11, 40, 15, 34, 23],
-        [9, 9, 12, 22, 15, 10, 42, 16, 32, 22],
-        [11, 10, 11, 21, 17, 15, 45, 14, 33, 26],
-        [12, 7, 13, 21, 15, 13, 38, 14, 35, 24],
-        [11, 7, 13, 22, 14, 12, 40, 15, 34, 22],
-    ]
+    return {
+        'Walmart': [10, 8, 12, 20, 16, 11, 40, 15, 34, 23],
+        'Aurrera': [9, 9, 12, 22, 15, 10, 42, 16, 32, 22],
+        'Soriana': [11, 10, 11, 21, 17, 15, 45, 14, 33, 26],
+        'Sams Club': [12, 7, 13, 21, 15, 13, 38, 14, 35, 24],
+        'Mercado Soriana': [11, 7, 13, 22, 14, 12, 40, 15, 34, 22]
+    }
+
+
+def markets_images():
+    'http://dummyimage.com/229x104.png/dddddd/000000'
+    return dict({
+        'Walmart': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Aurrera': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Soriana': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Sams Club': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Mercado Soriana': 'http://dummyimage.com/229x104.png/dddddd/000000'
+    })
+
+
+def products_images():
+    return dict({
+        'Sabritas': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Yoplait': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Coca Cola': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Oreos': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Victoria': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Pepsi': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Nescafé': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Emperador': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Pan Bimbo': 'http://dummyimage.com/229x104.png/dddddd/000000',
+        'Zote': 'http://dummyimage.com/229x104.png/dddddd/000000',
+    })
 
 
 def half_prod():
@@ -81,7 +106,7 @@ def half_prod():
         [np.nan, 9, np.nan, np.nan, 15, 10, np.nan, 16, np.nan, 22],
         [11, np.nan, np.nan, np.nan, 17, np.nan, np.nan, 14, 33, 26],
         [12, 7, 13, np.nan, np.nan, 13, 38, np.nan, np.nan, np.nan],
-        [np.nan, 7, 13, np.nan, np.nan, 12, np.nan, 15, np.nan, 22],
+        [np.nan, 7, 13, np.nan, np.nan, 12, np.nan, 15, np.nan, 22]
     ]
 
 
@@ -92,7 +117,7 @@ def one_market_all_prod():
         [9, 9, np.nan, np.nan, 15, np.nan, 42, np.nan, 32, 22],
         [11, 10, np.nan, 21, np.nan, np.nan, 45, 14, np.nan, 26],
         [np.nan, 7, 13, np.nan, 15, np.nan, 38, 14, 35, 24],
-        [np.nan, np.nan, 15, np.nan, 15, np.nan, 38, 13, np.nan, 24],
+        [np.nan, np.nan, 15, np.nan, 15, np.nan, 38, 13, np.nan, 24]
     ]
 
 
@@ -103,7 +128,7 @@ def two_markets_all_prod():
         [9, 9, np.nan, np.nan, 15, np.nan, 42, np.nan, 32, 22],
         [11, 10, np.nan, 21, np.nan, np.nan, 45, 14, np.nan, 26],
         [np.nan, 7, 13, np.nan, 15, np.nan, 38, 14, 35, 24],
-        [10, 8, 12, 20, 16, 11, 40, 15, 34, 23],
+        [10, 8, 12, 20, 16, 11, 40, 15, 34, 23]
     ]
 
 
@@ -114,7 +139,7 @@ def some_prod():
         [9, 9, 12, np.nan, 15, 10, np.nan, np.nan, np.nan, 22],
         [11, 10, np.nan, np.nan, np.nan, 15, 45, 14, np.nan, 26],
         [np.nan, 7, np.nan, np.nan, np.nan, 13, np.nan, np.nan, 35, 24],
-        [11, 7, 13, np.nan, 14, np.nan, 40, 15, np.nan, np.nan],
+        [11, 7, 13, np.nan, 14, np.nan, 40, 15, np.nan, np.nan]
     ]
 
 
@@ -125,7 +150,7 @@ def no_prod():
         [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
-        [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+        [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan]
     ]
 
 def one_same_prod():
@@ -135,7 +160,7 @@ def one_same_prod():
         [9, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [11, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [12, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
-        [11, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+        [11, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan]
     ]
 
 
@@ -146,5 +171,5 @@ def one_dif_prod():
         [np.nan, 9, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [np.nan, np.nan, 11, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
         [np.nan, np.nan, np.nan, 21, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
-        [np.nan, np.nan, np.nan, np.nan, 14, np.nan, np.nan, np.nan, np.nan, np.nan],
+        [np.nan, np.nan, np.nan, np.nan, 14, np.nan, np.nan, np.nan, np.nan, np.nan]
     ]
