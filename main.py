@@ -14,7 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Test data imports
 from tests.context import full_prod, half_prod, one_market_all_prod, set_quantity
-from tests.context import two_markets_all_prod, some_prod, no_prod
+from tests.context import two_markets_all_prod, some_prod, no_prod, markets_ids, products_ids
 from tests.context import one_same_prod, one_dif_prod, markets_images, products_images
 
 from tests.context import set_user, set_markets, set_products, set_markets_loc
@@ -156,7 +156,9 @@ def comparator():
                     quantity,
                     prices,
                     markets_images,
-                    products_images
+                    products_images,
+                    markets_ids,
+                    products_ids
                 )
                 return jsonify({
                     'error': 'false',

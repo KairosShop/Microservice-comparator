@@ -39,17 +39,18 @@ def get_df(supermarkets, products, prices, quantity):
     return df
 
 
-def get_context(user, markets, all_in_one, cheapest, details, markets_images):
+def get_context(user, markets, all_in_one, cheapest, details, markets_images, markets_ids, products_ids):
     """Generate the JSON string with the data to export."""
-
+    
     set_context = {}
     for market in markets:
-        set_context[market] = [all_in_one[market], cheapest[market]]
+        set_context[market] = all_in_one[market], cheapest[market]
 
     context = []
     for market in markets:
         context.append({
-            'id': market,
+            'id': markets_ids[market],
+            'supermarket': market,
             'urlImage': markets_images[market],
             'all': str(set_context[market][0]),
             'cheapest': str(set_context[market][1])
@@ -57,4 +58,5 @@ def get_context(user, markets, all_in_one, cheapest, details, markets_images):
 
     context = {'headers': context}
     context['products'] = str(details)
+    
     return context

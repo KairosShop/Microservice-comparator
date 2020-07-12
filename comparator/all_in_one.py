@@ -93,14 +93,21 @@ def get_sorted_values(df, all_in_one, supermarkets, user_loc, markets_loc, produ
         return aux
 
 
-def get_all_in_one(df, supermarkets, user_loc, markets_loc, products, quantity):
+def get_all_in_one(df, supermarkets, user_loc, markets_loc, products, quantity, products_images, products_ids):
     """Generate the "all in one list" data."""
     total_prod = {}
     total_aux = []
     for market in supermarkets:
         for i in range(len(products)):
             if df.loc[market].values[i] != 0:
-                total_aux.append({products[i]: df.loc[market].values[i], 'count': quantity[products[i]]})
+
+                total_aux.append({
+                    'id': products_ids[products[i]],
+                    'name': products[i],
+                    'urlImage': products_images[products[i]],
+                    'price': df.loc[market].values[i],
+                    'count': quantity[products[i]]
+                })
         total_prod[market] = total_aux
         total_aux = []
 

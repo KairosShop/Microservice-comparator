@@ -51,6 +51,31 @@ def set_quantity():
     })
 
 
+def markets_ids():
+    return dict({
+        'Walmart': 1,
+        'Aurrera': 2,
+        'Soriana': 3,
+        'Sams Club': 4,
+        'Mercado Soriana': 5,
+    })
+
+
+def products_ids():
+    return dict({
+        'Sabritas': 1,
+        'Yoplait': 2,
+        'Coca Cola': 3,
+        'Oreos': 4,
+        'Victoria': 5,
+        'Pepsi': 6,
+        'Nescafé': 7,
+        'Emperador': 8,
+        'Pan Bimbo': 9,
+        'Zote': 10,
+    })
+
+
 def set_markets_loc():
     """Supermarkets location."""
     return dict({
@@ -74,7 +99,6 @@ def full_prod():
 
 
 def markets_images():
-    'http://dummyimage.com/229x104.png/dddddd/000000'
     return dict({
         'Walmart': 'http://dummyimage.com/229x104.png/dddddd/000000',
         'Aurrera': 'http://dummyimage.com/229x104.png/dddddd/000000',
