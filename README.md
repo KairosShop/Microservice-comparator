@@ -69,6 +69,14 @@ flask run
 
 Now, if everything is fine, you should have runnig the server in ```localhost:5000/```
 
+The microservice has several test cases included, to see its work process. You can see the result of these cases using the POST method to send a numeric string:
+
+```
+/comparator/?cart=000x
+```
+
+where ```x``` is a numerical value between 1 and 8.
+
 ### Further help
 
 To learn more help about Flask, check the Flask documentation with ```flask --help ``` or the [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/).
