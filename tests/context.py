@@ -37,6 +37,7 @@ def set_products():
     ]
 
 def set_quantity():
+    """Product quantities."""
     return dict({
         'Sabritas': 1,
         'Yoplait': 8,
@@ -52,6 +53,7 @@ def set_quantity():
 
 
 def markets_ids():
+    """Supermarkets ids."""
     return dict({
         'Walmart': 1,
         'Aurrera': 2,
@@ -62,6 +64,7 @@ def markets_ids():
 
 
 def products_ids():
+    """Products ids."""
     return dict({
         'Sabritas': 1,
         'Yoplait': 2,
@@ -88,6 +91,7 @@ def set_markets_loc():
 
 
 def markets_images():
+    """Supermarkets image url."""
     return dict({
         'Walmart': 'http://dummyimage.com/229x104.png/dddddd/000000',
         'Aurrera': 'http://dummyimage.com/229x104.png/dddddd/000000',
@@ -98,6 +102,7 @@ def markets_images():
 
 
 def products_images():
+    """Products image url."""
     return dict({
         'Sabritas': 'http://dummyimage.com/229x104.png/dddddd/000000',
         'Yoplait': 'http://dummyimage.com/229x104.png/dddddd/000000',
