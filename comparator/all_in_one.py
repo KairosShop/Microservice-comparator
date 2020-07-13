@@ -121,6 +121,13 @@ def get_all_in_one(df, supermarkets, user_loc, markets_loc, products, quantity, 
             'products': total_prod[supermarkets[i]]
         }
     
-    all_in_one = get_sorted_values(df, all_in_one, supermarkets, user_loc, markets_loc, products)
+    all_in_one = get_sorted_values(
+        df,
+        all_in_one,
+        supermarkets,
+        user_loc,
+        markets_loc,
+        products
+    )
 
     return all_in_one

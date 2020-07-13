@@ -23,8 +23,7 @@ from tests.context import set_user, set_markets, set_products, set_markets_loc
 from comparator.comparator import the_comparator
 
 # Cart data imports
-from loader.data import get_json_cart
-from loader.loader import json_loader
+from loader.loader import loader
 
 # Pandas import
 import pandas as pd
@@ -43,19 +42,9 @@ cors = CORS(app, resources={
 
 
 # This part connects the microservice with the database
-
-# POST
-#   - userId
-#   - latitud
-#   - longitud
-
-# user = [userId, [latitud, longitud]]
-
 try:
     cart = db.Table('Orders', db.metadata, autoload=True, autoload_with=db.engine)
     results = db.session.query(cart).all()
-    # print(results[5]) # Users
-    # print(results)
 
 except Exception as e:
     print(f"Error while trying to get the table. : {e} Doesn't exist.")
@@ -99,6 +88,7 @@ def comparator():
         if request.method == 'POST':
             cart = request.args.get('cart')
 
+            # Testing structure
             if app.config['TESTING'] == True:
                 test = request.get_json('cart')
 
@@ -122,16 +112,6 @@ def comparator():
                 )
 
             if cart:
-                # This part will load the data from the database
-                id = 1
-                products, quantity = json_loader(id, get_json_cart)
-
-                user_info = set_user()
-                markets_id = set_markets()
-                markets_loc = set_markets_loc()
-                products = set_products()
-                quantity = set_quantity()
-                
                 price = {
                     '0001': full_prod(),
                     '0002': half_prod(),
@@ -154,11 +134,11 @@ def comparator():
                     })
 
                 context = the_comparator(
-                    user_info,
-                    markets_id,
-                    markets_loc,
-                    products,
-                    quantity,
+                    set_user(),
+                    set_markets(),
+                    set_markets_loc(),
+                    set_products(),
+                    set_quantity(),
                     prices,
                     markets_images(),
                     products_images(),

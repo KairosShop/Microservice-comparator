@@ -1,3 +1,6 @@
+"""Initializing the Flask app instance"""
+
+
 from flask import Flask
 
 from .config import Config
