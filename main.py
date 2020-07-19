@@ -12,14 +12,11 @@ from app import create_app
 # Database import
 from flask_sqlalchemy import SQLAlchemy
 
-# Test data imports
-import tests.context as ctx
-
 # Comparator Algorithm import
 from comparator.comparator import the_comparator
 
 # Cart data imports
-from loader.loader import loader
+from loader.loader import test_loader, loader
 
 # Pandas import
 import pandas as pd
@@ -93,78 +90,47 @@ def comparator():
     """Handles the Comparator Algorithm."""
     try:
         # POST method conditional
+        data = {}
+
         if request.method == 'POST':
-            cart = request.args.get('cart')
 
-            # Testing structure
             if app.config['TESTING'] == True:
-                test = request.get_json('cart')
+                # Testing structure
+                req = request.get_json('id')
+                test = test_loader(req)
+                
+                context = the_comparator(*test)
+            
+            else:
+                # Server running structure
+                data['id'] = request.args.get('id')            
+                data['lat'] = request.args.get('lat')
+                data['lon'] = request.args.get('lon')
 
-                context = the_comparator(
-                    ctx.set_user(),
-                    ctx.set_markets(),
-                    ctx.set_markets_loc(),
-                    ctx.set_products(),
-                    ctx.set_quantity(),
-                    test['cart'][0],
-                    ctx.set_markets_images(),
-                    ctx.set_products_images(),
-                    ctx.set_markets_ids(),
-                    ctx.set_products_ids()
-                )
+                if data['id']:
+                    try:
+                        load = loader(**data)
 
-                return jsonify({
-                    'error': 'false',
-                    'status': '200',
-                    'body': context}
-                )
+                    except Exception:
+                        return jsonify({
+                            'error': 'false',
+                            'status': '200',
+                            'body': 'Invalid information'
+                        })
 
-            if cart:
-                price = {
-                    '0001': ctx.full_prod(),
-                    '0002': ctx.half_prod(),
-                    '0003': ctx.one_market_all_prod(),
-                    '0004': ctx.two_markets_all_prod(),
-                    '0005': ctx.some_prod(),
-                    '0006': ctx.no_prod(),
-                    '0007': ctx.one_same_prod(),
-                    '0008': ctx.one_dif_prod()
-                }
+                    context = the_comparator(*load)
 
-                try:
-                    prices = price[cart]
-
-                except Exception:
+                else:
                     return jsonify({
                         'error': 'false',
                         'status': '200',
-                        'body': 'Invalid information'
+                        'body': 'There is no information'
                     })
-
-                context = the_comparator(
-                    ctx.set_user(),
-                    ctx.set_markets(),
-                    ctx.set_markets_loc(),
-                    ctx.set_products(),
-                    ctx.set_quantity(),
-                    prices,
-                    ctx.set_markets_images(),
-                    ctx.set_products_images(),
-                    ctx.set_markets_ids(),
-                    ctx.set_products_ids()
-                )
-
-                return jsonify({
+                
+            return jsonify({
                     'error': 'false',
                     'status': '200',
                     'body': context
-                })
-
-            else:
-                return jsonify({
-                    'error': 'false',
-                    'status': '200',
-                    'body': 'There is no information'
                 })
 
         # GET method conditional
@@ -175,7 +141,7 @@ def comparator():
                 'body': {
                     'message': 'Welcome to the Comparator Microservice',
                     'method': 'Try again with the POST method',
-                    'value': '/comparator/?cart=<cart_id>'
+                    'value': '/comparator/?id=<user_id>&lat=<user_latitude>&lon=<user_longitud>'
                 }
             })
 
@@ -183,5 +149,5 @@ def comparator():
         return jsonify({
             'error': 'false',
             'status': '200',
-            'body': 'Wrong information'
+            'body': 'Something wrong has happen'
         })

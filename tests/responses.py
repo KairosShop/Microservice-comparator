@@ -7,7 +7,7 @@ def redirect():
         "body": {
             "message": "Welcome to the Comparator Microservice",
             "method": "Try again with the POST method",
-            "value": "/comparator/?cart=<cart_id>"
+            "value": "/comparator/?id=<user_id>&lat=<user_latitude>&lon=<user_longitud>"
         },
         "error": "false",
         "status": "200"
