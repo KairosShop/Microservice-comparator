@@ -13,11 +13,7 @@ from app import create_app
 from flask_sqlalchemy import SQLAlchemy
 
 # Test data imports
-from tests.context import full_prod, half_prod, one_market_all_prod, set_quantity
-from tests.context import two_markets_all_prod, some_prod, no_prod, markets_ids, products_ids
-from tests.context import one_same_prod, one_dif_prod, markets_images, products_images
-
-from tests.context import set_user, set_markets, set_products, set_markets_loc
+import tests.context as ctx
 
 # Comparator Algorithm import
 from comparator.comparator import the_comparator
@@ -34,11 +30,7 @@ app = create_app()
 db = SQLAlchemy(app)
 
 CORS(app)
-cors = CORS(app, resources={
-    r"/*": {
-        "origins": "*"
-    }
-})
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # This part connects the microservice with the database
@@ -47,7 +39,7 @@ try:
     results = db.session.query(cart).all()
 
 except Exception as e:
-    print(f"Error while trying to get the table. : {e} Doesn't exist.")
+    print(f"Error while trying to get the {e} table. It doesn't exist.")
 
 
 @app.cli.command()
@@ -60,19 +52,34 @@ def test():
 @app.errorhandler(404)
 def not_found(error):
     """Handles the 404 error."""
-    return jsonify({'error': 'false', 'status': '200', 'body': 'Not found'})
+    
+    return jsonify({
+        'error': 'false',
+        'status': '200',
+        'body': 'Not found'
+    })
 
 
 @app.errorhandler(405)
 def not_allowed(error):
     """Handles the 405 error."""
-    return jsonify({'error': 'false', 'status': '200', 'body': 'Method not allowed'})
+    
+    return jsonify({
+        'error': 'false',
+        'status': '200',
+        'body': 'Method not allowed'
+    })
 
 
 @app.errorhandler(500)
 def server_error(error):
     """Handles the 500 error."""
-    return jsonify({'error': 'false', 'status': '200', 'body': 'Server error'})
+    
+    return jsonify({
+        'error': 'false',
+        'status': '200',
+        'body': 'Server error'
+    })
 
 
 @app.route("/")
@@ -85,6 +92,7 @@ def home():
 def comparator():
     """Handles the Comparator Algorithm."""
     try:
+        # POST method conditional
         if request.method == 'POST':
             cart = request.args.get('cart')
 
@@ -93,16 +101,16 @@ def comparator():
                 test = request.get_json('cart')
 
                 context = the_comparator(
-                    set_user(),
-                    set_markets(),
-                    set_markets_loc(),
-                    set_products(),
-                    set_quantity(),
-                    test['cart'][5],
-                    markets_images(),
-                    products_images(),
-                    markets_ids(),
-                    products_ids()
+                    ctx.set_user(),
+                    ctx.set_markets(),
+                    ctx.set_markets_loc(),
+                    ctx.set_products(),
+                    ctx.set_quantity(),
+                    test['cart'][0],
+                    ctx.set_markets_images(),
+                    ctx.set_products_images(),
+                    ctx.set_markets_ids(),
+                    ctx.set_products_ids()
                 )
 
                 return jsonify({
@@ -113,14 +121,14 @@ def comparator():
 
             if cart:
                 price = {
-                    '0001': full_prod(),
-                    '0002': half_prod(),
-                    '0003': one_market_all_prod(),
-                    '0004': two_markets_all_prod(),
-                    '0005': some_prod(),
-                    '0006': no_prod(),
-                    '0007': one_same_prod(),
-                    '0008': one_dif_prod()
+                    '0001': ctx.full_prod(),
+                    '0002': ctx.half_prod(),
+                    '0003': ctx.one_market_all_prod(),
+                    '0004': ctx.two_markets_all_prod(),
+                    '0005': ctx.some_prod(),
+                    '0006': ctx.no_prod(),
+                    '0007': ctx.one_same_prod(),
+                    '0008': ctx.one_dif_prod()
                 }
 
                 try:
@@ -134,16 +142,16 @@ def comparator():
                     })
 
                 context = the_comparator(
-                    set_user(),
-                    set_markets(),
-                    set_markets_loc(),
-                    set_products(),
-                    set_quantity(),
+                    ctx.set_user(),
+                    ctx.set_markets(),
+                    ctx.set_markets_loc(),
+                    ctx.set_products(),
+                    ctx.set_quantity(),
                     prices,
-                    markets_images(),
-                    products_images(),
-                    markets_ids(),
-                    products_ids()
+                    ctx.set_markets_images(),
+                    ctx.set_products_images(),
+                    ctx.set_markets_ids(),
+                    ctx.set_products_ids()
                 )
 
                 return jsonify({
@@ -159,6 +167,7 @@ def comparator():
                     'body': 'There is no information'
                 })
 
+        # GET method conditional
         else:
             return jsonify({
                 'error': 'false',

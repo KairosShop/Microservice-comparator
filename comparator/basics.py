@@ -39,7 +39,10 @@ def get_df(supermarkets, products, prices, quantity):
     return df
 
 
-def get_context(user, markets, all_in_one, cheapest, details, markets_images, markets_ids, products_ids):
+def get_context(
+    user, markets, all_in_one, cheapest, details, markets_images,
+    markets_ids, products_ids
+):
     """Generate the JSON string with the data to export."""
     set_context = {}
     

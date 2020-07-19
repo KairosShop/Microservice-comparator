@@ -8,7 +8,10 @@ from .cheapest import get_cheapest
 from .details import get_details
 
 
-def the_comparator(user_info, supermarkets, markets_loc, products, quantity, prices, markets_images, products_images, markets_ids, products_ids):
+def the_comparator(
+    user_info, supermarkets, markets_loc, products, quantity,
+    prices, markets_images, products_images, markets_ids, products_ids
+):
     """The Comparator main function."""
     user = user_info[0]
     user_loc = user_info[1]
