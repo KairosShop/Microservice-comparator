@@ -1,7 +1,7 @@
 """All the test responses to compare."""
 
 
-def res_redirect():
+def redirect():
     """Root redirection response"""
     return dict({
         "body": {
@@ -14,7 +14,7 @@ def res_redirect():
     })
 
 
-def res_full_prod():
+def full_prod():
     """All supermarkets with all products response."""
     return dict({"body": {"headers": [
       {
@@ -46,7 +46,7 @@ def res_full_prod():
 })
 
 
-def res_half_prod():
+def half_prod():
     """All supermarkets with half products response."""
     return dict({"body": {"headers": [
       {
@@ -78,7 +78,7 @@ def res_half_prod():
 })
 
 
-def res_one_market_all_prod():
+def one_market_all_prod():
     """One supermarket with all products response."""
     return dict({"body": {"headers": [
       {
@@ -110,7 +110,7 @@ def res_one_market_all_prod():
 })
 
 
-def res_two_markets_all_prod():
+def two_markets_all_prod():
     """Two supermarket with all products and same prices response."""
     return dict({"body": {"headers": [
       {
@@ -142,7 +142,7 @@ def res_two_markets_all_prod():
 })
 
 
-def res_some_prod():
+def some_prod():
     """All supermarkets with some products response."""
     return dict({"body": {"headers": [
       {
@@ -174,7 +174,7 @@ def res_some_prod():
 })
 
 
-def res_no_prod():
+def no_prod():
     """All supermarkets with no products response."""
     return dict({"body": {"headers": [
       {
@@ -206,7 +206,7 @@ def res_no_prod():
 })
 
 
-def res_one_same_prod():
+def one_same_prod():
     """All supermarkets with one same product response."""
     return dict({"body": {"headers": [
       {
@@ -238,7 +238,7 @@ def res_one_same_prod():
 })
 
 
-def res_one_dif_prod():
+def one_dif_prod():
     """All supermarkets with one diferent product response."""
     return dict({"body": {"headers": [
         {

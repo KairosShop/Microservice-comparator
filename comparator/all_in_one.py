@@ -93,7 +93,10 @@ def get_sorted_values(df, all_in_one, supermarkets, user_loc, markets_loc, produ
         return aux
 
 
-def get_all_in_one(df, supermarkets, user_loc, markets_loc, products, quantity, products_images, products_ids):
+def get_all_in_one(
+    df, supermarkets, user_loc, markets_loc, products,
+    quantity, products_images, products_ids
+):
     """Generate the "all in one list" data."""
     total_prod = {}
     total_aux = []

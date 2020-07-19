@@ -52,7 +52,7 @@ def set_quantity():
     })
 
 
-def markets_ids():
+def set_markets_ids():
     """Supermarkets ids."""
     return dict({
         'Walmart': 1,
@@ -63,7 +63,7 @@ def markets_ids():
     })
 
 
-def products_ids():
+def set_products_ids():
     """Products ids."""
     return dict({
         'Sabritas': 1,
@@ -90,7 +90,7 @@ def set_markets_loc():
     })
 
 
-def markets_images():
+def set_markets_images():
     """Supermarkets image url."""
     return dict({
         'Walmart': 'http://dummyimage.com/229x104.png/dddddd/000000',
@@ -101,7 +101,7 @@ def markets_images():
     })
 
 
-def products_images():
+def set_products_images():
     """Products image url."""
     return dict({
         'Sabritas': 'http://dummyimage.com/229x104.png/dddddd/000000',

@@ -1,7 +1,10 @@
 """Get all the supermarkets that offers a given product."""
 
 
-def get_details(df, supermarkets, products, quantity, products_images, products_ids, markets_ids, markets_images):
+def get_details(
+    df, supermarkets, products, quantity, products_images,
+    products_ids, markets_ids, markets_images
+):
     """Generate the "details list" data."""
     details = {}
 
